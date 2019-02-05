@@ -1,15 +1,15 @@
-package com.hyd.cache.caffeine;
+package com.hyd.cache.caches.ehcache;
 
 import com.hyd.cache.Cache;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class CaffeineCacheTest {
+public class EhCacheCacheTest {
 
     @Test
     public void testGetSet() throws Exception {
-        Cache cache = new Cache(new CaffeineConfiguration());
+        Cache cache = new Cache(new EhCacheConfiguration());
         String key = "key";
         String value = "value";
 
@@ -23,8 +23,8 @@ public class CaffeineCacheTest {
 
     @Test
     public void testExpiry() throws Exception {
-        CaffeineConfiguration config = new CaffeineConfiguration();
-        config.setExpireAfterWriteMillis(1000);
+        EhCacheConfiguration config = new EhCacheConfiguration();
+        config.setTimeToLiveSeconds(1);
 
         Cache cache = new Cache(config);
         String key = "key";
@@ -39,9 +39,9 @@ public class CaffeineCacheTest {
 
     @Test
     public void testMultipleCache() throws Exception {
-        Cache cache1 = new Cache(new CaffeineConfiguration());
-        Cache cache2 = new Cache(new CaffeineConfiguration());
-        Cache cache3 = new Cache(new CaffeineConfiguration());
+        Cache cache1 = new Cache(new EhCacheConfiguration());
+        Cache cache2 = new Cache(new EhCacheConfiguration());
+        Cache cache3 = new Cache(new EhCacheConfiguration());
 
         String key = "key";
         String value = "value";

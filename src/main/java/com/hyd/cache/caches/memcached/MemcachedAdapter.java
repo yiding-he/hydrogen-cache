@@ -1,4 +1,4 @@
-package com.hyd.cache.memcached;
+package com.hyd.cache.caches.memcached;
 
 import com.hyd.cache.CacheAdapter;
 import com.hyd.cache.CacheConfiguration;
@@ -142,12 +142,4 @@ public class MemcachedAdapter implements CacheAdapter {
         }
     }
 
-    @Override
-    public boolean keyExists(String key) {
-        try {
-            return this.client.get(key) != null;
-        } catch (Exception e) {
-            throw new CacheException(e);
-        }
-    }
 }

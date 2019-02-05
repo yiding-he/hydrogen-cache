@@ -1,4 +1,4 @@
-package com.hyd.cache.caffeine;
+package com.hyd.cache.caches.caffeine;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;

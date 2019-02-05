@@ -1,4 +1,4 @@
-package com.hyd.cache.cache2k;
+package com.hyd.cache.caches.cache2k;
 
 import com.hyd.cache.CacheAdapter;
 import com.hyd.cache.CacheConfiguration;
@@ -14,6 +14,10 @@ public class Cache2kAdapter implements CacheAdapter {
     private Cache<Object, Object> cache;
 
     public Cache2kAdapter(Cache2kConfiguration configuration) {
+        if (configuration == null) {
+            throw new NullPointerException("Configuration can not be null.");
+        }
+
         this.configuration = configuration;
         this.cache = buildCache();
     }
@@ -59,11 +63,6 @@ public class Cache2kAdapter implements CacheAdapter {
     @Override
     public void dispose() {
         this.cache.clearAndClose();
-    }
-
-    @Override
-    public boolean keyExists(String key) {
-        return this.cache.containsKey(key);
     }
 
     @Override

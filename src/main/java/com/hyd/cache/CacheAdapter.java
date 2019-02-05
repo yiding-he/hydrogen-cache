@@ -69,14 +69,5 @@ public interface CacheAdapter {
      */
     void dispose();
 
-    /**
-     * 判断 key 是否存在。如果是为了取值，请直接把值取过来再判断是否为空。
-     *
-     * @param key 要查找的 key
-     *
-     * @return 如果 key 存在则返回 true
-     */
-    boolean keyExists(String key);
-
     void touch(String key);
 }

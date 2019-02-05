@@ -1,4 +1,4 @@
-package com.hyd.cache.redis;
+package com.hyd.cache.caches.redis;
 
 import com.hyd.cache.CacheAdapterFactory;
 import com.hyd.cache.CacheConfiguration;
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Yiding
  */
-public class RedisConfiguration implements CacheConfiguration {
+public class RedisConfiguration extends CacheConfiguration {
 
     static {
         CacheAdapterFactory.register(RedisConfiguration.class, conf -> new RedisAdapter((RedisConfiguration) conf));
@@ -39,7 +39,6 @@ public class RedisConfiguration implements CacheConfiguration {
         this.serializeMethod = serializeMethod;
     }
 
-    @Override
     public byte getSerializeMethod() {
         return serializeMethod;
     }

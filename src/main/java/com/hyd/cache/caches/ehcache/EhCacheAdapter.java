@@ -1,4 +1,4 @@
-package com.hyd.cache.ehcache;
+package com.hyd.cache.caches.ehcache;
 
 import com.hyd.cache.CacheAdapter;
 import com.hyd.cache.CacheConfiguration;
@@ -84,11 +84,6 @@ public class EhCacheAdapter implements CacheAdapter {
     @Override
     public void dispose() {
         cache.clear();
-    }
-
-    @Override
-    public boolean keyExists(String key) {
-        return cache.containsKey(key);
     }
 
     @Override

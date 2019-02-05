@@ -1,4 +1,4 @@
-package com.hyd.cache.redis;
+package com.hyd.cache.caches.redis;
 
 import com.hyd.cache.Cache;
 import com.hyd.cache.bean.User;

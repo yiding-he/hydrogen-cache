@@ -1,9 +1,9 @@
-package com.hyd.cache.ehcache;
+package com.hyd.cache.caches.ehcache;
 
 import com.hyd.cache.CacheAdapterFactory;
 import com.hyd.cache.CacheConfiguration;
 
-public class EhCacheConfiguration implements CacheConfiguration {
+public class EhCacheConfiguration extends CacheConfiguration {
 
     private static transient int cacheCounter = 0;
 

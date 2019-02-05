@@ -1,9 +1,9 @@
-package com.hyd.cache.cache2k;
+package com.hyd.cache.caches.cache2k;
 
 import com.hyd.cache.CacheAdapterFactory;
 import com.hyd.cache.CacheConfiguration;
 
-public class Cache2kConfiguration implements CacheConfiguration {
+public class Cache2kConfiguration extends CacheConfiguration {
 
     static {
         CacheAdapterFactory.register(

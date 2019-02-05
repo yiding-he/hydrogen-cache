@@ -1,9 +1,10 @@
-package com.hyd.cache.memcached;
+package com.hyd.cache.caches.memcached;
 
 import com.hyd.cache.CacheAdapterFactory;
 import com.hyd.cache.CacheConfiguration;
+import com.hyd.cache.serialization.PredefinedSerializeMethod;
 
-public class MemcachedConfiguration implements CacheConfiguration {
+public class MemcachedConfiguration extends CacheConfiguration {
 
     static {
         CacheAdapterFactory.register(
@@ -27,6 +28,16 @@ public class MemcachedConfiguration implements CacheConfiguration {
     private int timeToLiveSeconds = 3600;
 
     private int timeToIdleSeconds = 3600;
+
+    private byte serializeMethod = PredefinedSerializeMethod.FST.getTag();
+
+    public byte getSerializeMethod() {
+        return serializeMethod;
+    }
+
+    public void setSerializeMethod(byte serializeMethod) {
+        this.serializeMethod = serializeMethod;
+    }
 
     public int getTimeToLiveSeconds() {
         return timeToLiveSeconds;
@@ -91,4 +102,6 @@ public class MemcachedConfiguration implements CacheConfiguration {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }

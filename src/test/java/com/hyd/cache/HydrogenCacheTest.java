@@ -1,6 +1,6 @@
 package com.hyd.cache;
 
-import com.hyd.cache.ehcache.EhCacheConfiguration;
+import com.hyd.cache.caches.ehcache.EhCacheConfiguration;
 import org.junit.Test;
 
 public class HydrogenCacheTest {

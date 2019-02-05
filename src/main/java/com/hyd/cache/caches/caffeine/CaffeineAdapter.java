@@ -1,4 +1,4 @@
-package com.hyd.cache.caffeine;
+package com.hyd.cache.caches.caffeine;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -74,11 +74,6 @@ public class CaffeineAdapter implements CacheAdapter {
     public void dispose() {
         this.cache.invalidateAll();
         this.cache.cleanUp();
-    }
-
-    @Override
-    public boolean keyExists(String key) {
-        return get(key) != null;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.hyd.cache.redis;
+package com.hyd.cache.caches.redis;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

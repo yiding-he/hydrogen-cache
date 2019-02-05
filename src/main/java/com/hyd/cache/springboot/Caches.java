@@ -34,12 +34,17 @@ public class Caches {
     }
 
     private void register(String name, CacheConfiguration config) {
+        if (config.isTemplate()) {
+            LOG.debug("Cache '" + name + "' is template.");
+            return;
+        }
+
         if (cacheMappings.containsKey(name)) {
             throw new AutoConfigurationException("Cache name '" + name + "' already exists.");
         }
 
         cacheMappings.put(name, new Cache(config));
-        LOG.info("Cache '" + name + "'[" + config.getType() + "] created.");
+        LOG.debug("Cache '" + name + "'[" + config.getType() + "] created.");
     }
 
     public Cache get(String name) {

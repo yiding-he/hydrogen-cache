@@ -1,4 +1,4 @@
-package com.hyd.cache.redis;
+package com.hyd.cache.caches.redis;
 
 import com.hyd.cache.CacheAdapter;
 import com.hyd.cache.CacheConfiguration;
@@ -153,11 +153,6 @@ public class RedisAdapter implements CacheAdapter {
     @Override
     public void dispose() {
         this.shardedJedisPool.close();
-    }
-
-    @Override
-    public boolean keyExists(final String key) {
-        return withJedis(jedis -> jedis.exists(key.getBytes()));
     }
 
     private interface JedisExecutor<T> {

@@ -1,9 +1,9 @@
-package com.hyd.cache.caffeine;
+package com.hyd.cache.caches.caffeine;
 
 import com.hyd.cache.CacheAdapterFactory;
 import com.hyd.cache.CacheConfiguration;
 
-public class CaffeineConfiguration implements CacheConfiguration {
+public class CaffeineConfiguration extends CacheConfiguration {
 
     static {
         CacheAdapterFactory.register(

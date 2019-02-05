@@ -47,6 +47,15 @@ public class Cache {
     }
 
     /**
+     * 获取实际的缓存访问对象
+     *
+     * @return 实际的缓存访问对象
+     */
+    public CacheAdapter getCacheAdapter() {
+        return cacheAdapter;
+    }
+
+    /**
      * 保存 Element 对象到缓存，使用缺省的缓存超时时间
      *
      * @param key     键

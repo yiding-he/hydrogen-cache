@@ -1,10 +1,10 @@
 package com.hyd.cache.springboot;
 
-import com.hyd.cache.cache2k.Cache2kConfiguration;
-import com.hyd.cache.caffeine.CaffeineConfiguration;
-import com.hyd.cache.ehcache.EhCacheConfiguration;
-import com.hyd.cache.memcached.MemcachedConfiguration;
-import com.hyd.cache.redis.RedisConfiguration;
+import com.hyd.cache.caches.cache2k.Cache2kConfiguration;
+import com.hyd.cache.caches.caffeine.CaffeineConfiguration;
+import com.hyd.cache.caches.ehcache.EhCacheConfiguration;
+import com.hyd.cache.caches.memcached.MemcachedConfiguration;
+import com.hyd.cache.caches.redis.RedisConfiguration;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

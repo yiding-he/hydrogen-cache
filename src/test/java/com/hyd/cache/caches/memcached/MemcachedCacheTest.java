@@ -1,4 +1,4 @@
-package com.hyd.cache.memcached;
+package com.hyd.cache.caches.memcached;
 
 import com.hyd.cache.Cache;
 import com.hyd.cache.bean.User;

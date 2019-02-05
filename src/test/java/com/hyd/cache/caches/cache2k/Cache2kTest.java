@@ -1,4 +1,4 @@
-package com.hyd.cache.cache2k;
+package com.hyd.cache.caches.cache2k;
 
 import org.cache2k.Cache;
 import org.cache2k.Cache2kBuilder;
