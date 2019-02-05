@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +22,10 @@ public class AsyncCacheLoader {
     private static final ThreadPoolExecutor POOL_EXECUTOR =
             new ThreadPoolExecutor(1, MAX_WORKERS, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
 
+    public static List<String> getQueuedKeys() {
+        return QUEUED_KEYS;
+    }
+
     static {
         Runtime.getRuntime().addShutdownHook(new Thread(POOL_EXECUTOR::shutdownNow));
     }
@@ -32,20 +35,17 @@ public class AsyncCacheLoader {
      */
     public static void addTask(String key, CacheAdapter cache, Supplier<?> supplier, long expiry) {
 
-        RefreshTask task = new RefreshTask(key, cache, supplier, expiry);
+        String queueKey = key + ":" + cache.hashCode();
+        RefreshTask task = new RefreshTask(queueKey, key, cache, supplier, expiry);
 
         // 如果该 cacheKey 已经在队列中，则跳过
         synchronized (QUEUED_KEYS) {
-            if (QUEUED_KEYS.contains(key)) {
+            if (QUEUED_KEYS.contains(queueKey)) {
                 return;
             }
         }
 
-        // 如果已经有一个相同的任务在队列中或者正在运行，则不需要再添加了
-        if (POOL_EXECUTOR.getQueue().contains(task)) {
-            return;
-        }
-
+        QUEUED_KEYS.add(queueKey);
         POOL_EXECUTOR.submit(task);
     }
 
@@ -57,6 +57,11 @@ public class AsyncCacheLoader {
     private static class RefreshTask implements Runnable {
 
         private static final Logger LOG = LoggerFactory.getLogger(RefreshTask.class);
+
+        /**
+         * 任务 key
+         */
+        private String queueKey;
 
         /**
          * 缓存 key
@@ -78,7 +83,8 @@ public class AsyncCacheLoader {
          */
         private long expiry;
 
-        RefreshTask(String cacheKey, CacheAdapter cache, Supplier<?> supplier, long expiry) {
+        RefreshTask(String queueKey, String cacheKey, CacheAdapter cache, Supplier<?> supplier, long expiry) {
+            this.queueKey = queueKey;
             this.cacheKey = cacheKey;
             this.cache = cache;
             this.supplier = supplier;
@@ -87,8 +93,6 @@ public class AsyncCacheLoader {
 
         @Override
         public void run() {
-            QUEUED_KEYS.add(cacheKey);
-
             try {
                 Object value = supplier.get();
                 if (value != null) {
@@ -99,22 +103,8 @@ public class AsyncCacheLoader {
             } catch (Exception e) {
                 LOG.error("", e);
             } finally {
-                QUEUED_KEYS.remove(cacheKey);
+                QUEUED_KEYS.remove(queueKey);
             }
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            RefreshTask task = (RefreshTask) o;
-            return Objects.equals(cacheKey, task.cacheKey);
-        }
-
-        @Override
-        public int hashCode() {
-            return cacheKey != null ? cacheKey.hashCode() : 0;
         }
     }
 
