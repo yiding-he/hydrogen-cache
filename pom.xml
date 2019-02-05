@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.hyd</groupId>
-    <artifactId>simple-cache</artifactId>
+    <artifactId>hydrogen-cache</artifactId>
     <version>3.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -31,7 +31,12 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.54</version>
+            <version>1.2.56</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8.1</version>
         </dependency>
 
         <!-- Optional -->
@@ -39,7 +44,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.4</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -48,7 +53,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- ====Cache implementations==== -->
+        <!-- Optional Cache implementations -->
 
         <!-- https://mvnrepository.com/artifact/com.spotify/folsom -->
         <dependency>

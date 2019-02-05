@@ -1,8 +1,8 @@
-# simple-cache
+# hydrogen-cache
 
-simple-cache 是一个为不同种类的缓存提供统一 API 的类库。其目的是方便项目在本地缓存和远程缓存之间切换。
+hydrogen-cache 是一个为不同种类的缓存提供统一 API 的类库。其目的是方便项目在本地缓存和远程缓存之间切换。
 
-simple-cache 支持以下底层实现：
+hydrogen-cache 支持以下底层实现：
 
 - 本地缓存：
   - EhCache
@@ -19,8 +19,8 @@ simple-cache 支持以下底层实现：
 下面是一个使用例子：
 
 ```java
-// 创建一个 SimpleCache 对象
-SimpleCache cache = new SimpleCache(new EhCacheConfiguration());
+// 创建一个 com.hyd.cache.Cache 对象
+Cache cache = new Cache(new EhCacheConfiguration());
 
 // 简单存取
 cache.put("name", queryName());
@@ -37,41 +37,42 @@ PageData pageData = cache.getAsync(
         "page-data", pageDataExpirySeconds, () -> queryPageData());
 ```
 
-## 创建 `SimpleCache` 对象
+## 创建 `Cache` 对象
 
 通过下面几种方式之一来创建：
 
 ```java
-new SimpleCache(new Cache2kConfiguration());
-new SimpleCache(new CaffeineConfiguration());
-new SimpleCache(new EhCacheConfiguration());
-new SimpleCache(new MemcachedConfiguration());
-new SimpleCache(new RedisConfiguration());
+// com.hyd.cache.Cache
+new Cache(new Cache2kConfiguration());
+new Cache(new CaffeineConfiguration());
+new Cache(new EhCacheConfiguration());
+new Cache(new MemcachedConfiguration());
+new Cache(new RedisConfiguration());
 // 更多缓存支持添加中...
 ```
 
 ## Spring Boot 中自动初始化
 
-在 Spring Boot 中可以添加多个缓存配置，然后用 `Caches` 类获取各自的 SimpleCache 对象。下面是一个例子：
+在 Spring Boot 中可以添加多个缓存配置，然后用 `Caches` 类获取各自的 Cache 对象。下面是一个例子：
 
 ```properties
 # application.properties
 
 # memcached instance
-simple-cache.memcached.REMOTE.host=localhost
-simple-cache.memcached.REMOTE.port=11211
-simple-cache.memcached.REMOTE.time-to-live-seconds=3600
+hydrogen-cache.memcached.REMOTE.host=localhost
+hydrogen-cache.memcached.REMOTE.port=11211
+hydrogen-cache.memcached.REMOTE.time-to-live-seconds=3600
 
 # cache2k instances
-simple-cache.cache2k.LOCAL1.entry-capacity=10000
-simple-cache.cache2k.LOCAL2.entry-capacity=10000
+hydrogen-cache.cache2k.LOCAL1.entry-capacity=10000
+hydrogen-cache.cache2k.LOCAL2.entry-capacity=10000
 ```
 
 无需额外编码，即可在代码里面使用缓存对象：
 
 ```java
-import com.hyd.simplecache.springboot.Caches;
-import com.hyd.simplecache.SimpleCache;
+import com.hyd.cache.springboot.Caches;
+import com.hyd.cache.Cache;
 
 public class CacheDemo {
     
@@ -79,34 +80,34 @@ public class CacheDemo {
     private Caches caches;
     
     public void func() {
-        SimpleCache remoteCache = caches.get("REMOTE");
-        SimpleCache localCache1 = caches.get("LOCAL1");
-        SimpleCache localCache2 = caches.get("LOCAL2");
+        Cache remoteCache = caches.get("REMOTE");
+        Cache localCache1 = caches.get("LOCAL1");
+        Cache localCache2 = caches.get("LOCAL2");
     }
 }
 ```
 
-当然你也可以在 `@Configuration` 类中定义单独的 SimpleCache：
+当然你也可以在 `@Configuration` 类中定义单独的 Cache：
 
 ```java
-import com.hyd.simplecache.springboot.Caches;
-import com.hyd.simplecache.SimpleCache;
+import com.hyd.cache.springboot.Caches;
+import com.hyd.cache.Cache;
 
 @Configuration
 public class Conf {
     
     @Bean
-    public SimpleCache remoteCache(Caches caches) {
+    public Cache remoteCache(Caches caches) {
         return caches.get("REMOTE");
     }
     
     @Bean
-    public SimpleCache localCache1(Caches caches) {
+    public Cache localCache1(Caches caches) {
         return caches.get("LOCAL1");
     }
     
     @Bean
-    public SimpleCache localCache2(Caches caches) {
+    public Cache localCache2(Caches caches) {
         return caches.get("LOCAL2");
     }
 }
@@ -114,7 +115,7 @@ public class Conf {
 
 ### Redis 序列化方式
 
-simple-cache 使用 Redis 时默认使用二进制序列化方式，但是这对文字客户端不友好。如果需要以字符方式序列化（JSON），则可以像下面这样：
+hydrogen-cache 使用 Redis 时默认使用二进制序列化方式，但是这对文字客户端不友好。如果需要以字符方式序列化（JSON），则可以像下面这样：
 
 ```java
 RedisConfiguration c = new RedisConfiguration();
@@ -123,4 +124,4 @@ c.setSerializeMethod(PredefinedSerializeMethod.JSON.getTag());
 
 或者在 application.properties 当中指定
 
-    simple-cache.redis.[cache-name].serialize-method=1
+    hydrogen-cache.redis.[cache-name].serialize-method=1

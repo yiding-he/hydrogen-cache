@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.hyd.simplecache.springboot.SimpleCacheAutoConfigurator
+  com.hyd.cache.springboot.HydrogenCacheAutoConfigurator
