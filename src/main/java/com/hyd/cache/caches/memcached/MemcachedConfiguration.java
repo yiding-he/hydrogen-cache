@@ -4,6 +4,9 @@ import com.hyd.cache.CacheAdapterFactory;
 import com.hyd.cache.CacheConfiguration;
 import com.hyd.cache.serialization.PredefinedSerializeMethod;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MemcachedConfiguration extends CacheConfiguration {
 
     static {
@@ -13,9 +16,7 @@ public class MemcachedConfiguration extends CacheConfiguration {
         );
     }
 
-    private String host = "localhost";
-
-    private int port = 11211;
+    private List<ServerAddress> addresses = new ArrayList<>();
 
     private int concurrency = 1;
 
@@ -30,6 +31,18 @@ public class MemcachedConfiguration extends CacheConfiguration {
     private int timeToIdleSeconds = 3600;
 
     private byte serializeMethod = PredefinedSerializeMethod.FST.getTag();
+
+    {
+        this.addresses.add(new ServerAddress("localhost", 11211));
+    }
+
+    public List<ServerAddress> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<ServerAddress> addresses) {
+        this.addresses = addresses;
+    }
 
     public byte getSerializeMethod() {
         return serializeMethod;
@@ -53,22 +66,6 @@ public class MemcachedConfiguration extends CacheConfiguration {
 
     public void setTimeToIdleSeconds(int timeToIdleSeconds) {
         this.timeToIdleSeconds = timeToIdleSeconds;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
     }
 
     public int getConcurrency() {

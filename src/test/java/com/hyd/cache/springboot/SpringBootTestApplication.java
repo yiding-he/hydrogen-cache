@@ -40,6 +40,10 @@ public class SpringBootTestApplication {
             cache = caches.get("ehcache1");
             cache.put("mail", "yiding.he@gmail.com");
             System.out.println("mail: " + cache.get("mail"));
+
+            cache = caches.get("mem1");
+            cache.put("mail", "yiding.he@gmail.com");
+            System.out.println("mail: " + cache.get("mail"));
         };
     }
 }

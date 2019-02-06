@@ -26,10 +26,13 @@ public class MemcachedAdapter implements CacheAdapter {
     public MemcachedAdapter(MemcachedConfiguration configuration) throws CacheException {
         this.configuration = configuration;
 
-        MemcacheClientBuilder<byte[]> builder = MemcacheClientBuilder.newByteArrayClient()
-                .withAddress(configuration.getHost(), configuration.getPort())
+        MemcacheClientBuilder<byte[]> builder = MemcacheClientBuilder
+                .newByteArrayClient()
                 .withConnections(configuration.getConcurrency())
                 .withRequestTimeoutMillis(configuration.getTimeoutMillis());
+
+        configuration.getAddresses().forEach(serverAddress ->
+                builder.withAddress(serverAddress.getHost(), serverAddress.getPort()));
 
         if (StringUtils.isNotBlank(configuration.getUsername()) &&
                 StringUtils.isNotBlank(configuration.getPassword())) {
