@@ -17,13 +17,13 @@ hydrogen-cache 支持以下底层实现：
   - EhCache
   - Cache2k
   - caffeine
-  - JCS （开发中）
-  - Guava （开发中）
 - 远程缓存：
   - memcached
   - redis
 
 你的项目可以在开发过程中使用本地缓存，而在生产环境上使用远程缓存，无需修改代码，只需修改配置即可。
+
+当前分支的最新版本是 3.1.0-SNAPSHOT
 
 下面是一个使用例子：
 
@@ -45,6 +45,28 @@ int pageDataExpirySeconds = 60;
 PageData pageData = cache.getAsync(
         "page-data", pageDataExpirySeconds, () -> queryPageData());
 ```
+
+## 添加依赖关系
+
+请在 pom.xml 的 `<repositories>` 元素当中添加下面的内容：
+
+```xml
+<repository>
+    <id>yiding-he-github</id>
+    <url>https://raw.githubusercontent.com/yiding-he/mvn-repo/master</url>
+</repository>
+```
+
+然后在 `<dependencies>` 元素当中添加下面的内容：
+
+```xml
+<dependency>
+    <groupId>com.hyd</groupId>
+    <artifactId>hydrogen-cache</artifactId>
+    <version>3.1.0-SNAPSHOT</version>
+</dependency>
+```
+
 
 ## 创建 `Cache` 对象
 
