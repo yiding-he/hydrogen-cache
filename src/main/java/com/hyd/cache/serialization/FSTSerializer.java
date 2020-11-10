@@ -4,7 +4,7 @@ import org.nustaq.serialization.FSTConfiguration;
 
 public class FSTSerializer implements Serializer {
 
-    private static FSTConfiguration FST;
+    private static final FSTConfiguration FST;
 
     static {
         FST = FSTConfiguration.createDefaultConfiguration();

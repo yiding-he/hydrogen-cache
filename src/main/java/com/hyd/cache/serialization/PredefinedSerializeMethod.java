@@ -11,10 +11,9 @@ public enum PredefinedSerializeMethod {
 
     ;
 
-    private byte tag;
+    private final byte tag;
 
     PredefinedSerializeMethod(byte tag) {
-
         this.tag = tag;
     }
 

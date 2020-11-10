@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public class RedisAdapter implements CacheAdapter {
 
-    private RedisConfiguration configuration;
+    private final RedisConfiguration configuration;
 
     private final ShardedJedisPool shardedJedisPool;
 
