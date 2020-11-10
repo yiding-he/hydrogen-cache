@@ -46,28 +46,6 @@ PageData pageData = cache.getAsync(
         "page-data", pageDataExpirySeconds, () -> queryPageData());
 ```
 
-## 添加依赖关系
-
-请在 pom.xml 的 `<repositories>` 元素当中添加下面的内容：
-
-```xml
-<repository>
-    <id>yiding-he-github</id>
-    <url>https://raw.githubusercontent.com/yiding-he/mvn-repo/master</url>
-</repository>
-```
-
-然后在 `<dependencies>` 元素当中添加下面的内容：
-
-```xml
-<dependency>
-    <groupId>com.hyd</groupId>
-    <artifactId>hydrogen-cache</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
-</dependency>
-```
-
-
 ## 创建 `Cache` 对象
 
 通过下面几种方式之一来创建：
