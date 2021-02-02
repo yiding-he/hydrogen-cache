@@ -39,21 +39,27 @@ public class RedisAdapter implements CacheAdapter {
                 .collect(Collectors.toList());
     }
 
+    private Serializer getSerializer(byte tag) {
+        Serializer serializer = SerializerFactory.getSerializer(tag);
+        serializer.setDisposeOnFail(configuration.isDisposeOnDeserializationFailure());
+        return serializer;
+    }
+
     private Object deserialize(byte[] bytes) {
         byte tag = bytes[0];
-        Serializer serializer = SerializerFactory.getSerializer(tag);
+        Serializer serializer = getSerializer(tag);
         return serializer.deserialize(bytes);
     }
 
     private <T> Element<T> deserialize(byte[] bytes, Class<T> type) {
         byte tag = bytes[0];
-        Serializer serializer = SerializerFactory.getSerializer(tag);
+        Serializer serializer = getSerializer(tag);
         return serializer.deserialize(bytes, type);
     }
 
     private byte[] serialize(Object o) {
         byte tag = configuration.getSerializeMethod();
-        Serializer serializer = SerializerFactory.getSerializer(tag);
+        Serializer serializer = getSerializer(tag);
         return serializer.serialize(o);
     }
 

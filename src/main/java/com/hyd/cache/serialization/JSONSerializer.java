@@ -10,6 +10,18 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class JSONSerializer implements Serializer {
 
+    private boolean disposeOnFail;
+
+    @Override
+    public boolean isDisposeOnFail() {
+        return disposeOnFail;
+    }
+
+    @Override
+    public void setDisposeOnFail(boolean disposeOnFail) {
+        this.disposeOnFail = disposeOnFail;
+    }
+
     @Override
     public byte[] serialize(Object object) {
         String json = JSON.toJSONString(object, SerializerFeature.WriteClassName);
@@ -21,8 +33,16 @@ public class JSONSerializer implements Serializer {
 
     @Override
     public Object deserialize(byte[] bytes) {
-        byte[] content = removeTag(bytes);
-        return JSON.parseObject(new String(content, UTF_8));
+        try {
+            byte[] content = removeTag(bytes);
+            return JSON.parseObject(new String(content, UTF_8));
+        } catch (Exception e) {
+            if (disposeOnFail) {
+                return null;
+            } else {
+                throw e;
+            }
+        }
     }
 
     @Override

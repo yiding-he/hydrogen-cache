@@ -15,12 +15,25 @@ public abstract class CacheConfiguration implements Serializable {
      */
     private boolean template;
 
+    /**
+     * 当遇到反序列化失败时是否抛弃缓存内容
+     */
+    private boolean disposeOnDeserializationFailure = true;
+
     public boolean isTemplate() {
         return template;
     }
 
     public void setTemplate(boolean template) {
         this.template = template;
+    }
+
+    public boolean isDisposeOnDeserializationFailure() {
+        return disposeOnDeserializationFailure;
+    }
+
+    public void setDisposeOnDeserializationFailure(boolean disposeOnDeserializationFailure) {
+        this.disposeOnDeserializationFailure = disposeOnDeserializationFailure;
     }
 
     public String getType() {

@@ -25,6 +25,10 @@ public interface Serializer {
      */
     Object deserialize(byte[] bytes);
 
+    void setDisposeOnFail(boolean disposeOnFail);
+
+    boolean isDisposeOnFail();
+
     /**
      * 反序列化并转换为指定的对象类型，bytes 的第一个字节为标志位，需要从内容中排除
      *
