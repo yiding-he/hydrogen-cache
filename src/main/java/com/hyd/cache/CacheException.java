@@ -5,6 +5,10 @@ package com.hyd.cache;
  */
 public class CacheException extends RuntimeException {
 
+    public static CacheException wrap(Exception e) {
+        return e instanceof CacheException ? (CacheException) e : new CacheException(e);
+    }
+
     public CacheException() {
     }
 

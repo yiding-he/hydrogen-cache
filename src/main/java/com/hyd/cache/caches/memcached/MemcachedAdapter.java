@@ -3,7 +3,6 @@ package com.hyd.cache.caches.memcached;
 import com.hyd.cache.CacheAdapter;
 import com.hyd.cache.CacheConfiguration;
 import com.hyd.cache.CacheException;
-import com.hyd.cache.Element;
 import com.hyd.cache.serialization.SerializerFactory;
 import com.spotify.folsom.BinaryMemcacheClient;
 import com.spotify.folsom.ConnectFuture;
@@ -65,20 +64,6 @@ public class MemcachedAdapter implements CacheAdapter {
             }
             byte tag = bytes[0];
             return SerializerFactory.getSerializer(tag).deserialize(bytes);
-        } catch (Exception e) {
-            throw new CacheException(e);
-        }
-    }
-
-    @Override
-    public <T> Element<T> get(String key, Class<T> type) {
-        try {
-            byte[] bytes = getBytes(key);
-            if (bytes == null) {
-                return null;
-            }
-            byte tag = bytes[0];
-            return SerializerFactory.getSerializer(tag).deserialize(bytes, type);
         } catch (Exception e) {
             throw new CacheException(e);
         }

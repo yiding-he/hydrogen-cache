@@ -19,20 +19,7 @@ public interface CacheAdapter {
      *
      * @return 缓存值
      */
-    Object get(String key);
-
-    /**
-     * 根据类型获取缓存值
-     *
-     * @param key  缓存键
-     * @param type 要转换的对象类型
-     *
-     * @return 缓存值
-     */
-    @SuppressWarnings("unchecked")
-    default <T> Element<T> get(String key, Class<T> type) {
-        return (Element<T>) get(key);
-    }
+    Object get(String key) throws CacheException;
 
     /**
      * 设置缓存值
@@ -41,7 +28,7 @@ public interface CacheAdapter {
      * @param value   缓存值
      * @param forever 是否永久保存
      */
-    void put(String key, Object value, boolean forever);
+    void put(String key, Object value, boolean forever) throws CacheException;
 
     /**
      * 设置缓存值
@@ -50,24 +37,24 @@ public interface CacheAdapter {
      * @param value             缓存值
      * @param timeToLiveSeconds 本条缓存的保存时长（秒）
      */
-    void put(String key, Object value, int timeToLiveSeconds);
+    void put(String key, Object value, int timeToLiveSeconds) throws CacheException;
 
     /**
      * 删除缓存
      *
      * @param key 缓存键
      */
-    void delete(String key);
+    void delete(String key) throws CacheException;
 
     /**
      * 清空当前缓存
      */
-    void clear();
+    void clear() throws CacheException;
 
     /**
      * 关闭缓存客户端对象，释放相关资源
      */
-    void dispose();
+    void dispose() throws CacheException;
 
     void touch(String key);
 }

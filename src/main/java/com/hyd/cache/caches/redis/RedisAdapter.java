@@ -2,7 +2,7 @@ package com.hyd.cache.caches.redis;
 
 import com.hyd.cache.CacheAdapter;
 import com.hyd.cache.CacheConfiguration;
-import com.hyd.cache.Element;
+import com.hyd.cache.CacheException;
 import com.hyd.cache.serialization.Serializer;
 import com.hyd.cache.serialization.SerializerFactory;
 import redis.clients.jedis.JedisPoolConfig;
@@ -46,21 +46,23 @@ public class RedisAdapter implements CacheAdapter {
     }
 
     private Object deserialize(byte[] bytes) {
-        byte tag = bytes[0];
-        Serializer serializer = getSerializer(tag);
-        return serializer.deserialize(bytes);
-    }
-
-    private <T> Element<T> deserialize(byte[] bytes, Class<T> type) {
-        byte tag = bytes[0];
-        Serializer serializer = getSerializer(tag);
-        return serializer.deserialize(bytes, type);
+        try {
+            byte tag = bytes[0];
+            Serializer serializer = getSerializer(tag);
+            return serializer.deserialize(bytes);
+        } catch (Exception e) {
+            throw CacheException.wrap(e);
+        }
     }
 
     private byte[] serialize(Object o) {
-        byte tag = configuration.getSerializeMethod();
-        Serializer serializer = getSerializer(tag);
-        return serializer.serialize(o);
+        try {
+            byte tag = configuration.getSerializeMethod();
+            Serializer serializer = getSerializer(tag);
+            return serializer.serialize(o);
+        } catch (Exception e) {
+            throw CacheException.wrap(e);
+        }
     }
 
     @Override
@@ -88,22 +90,6 @@ public class RedisAdapter implements CacheAdapter {
                 return null;
             } else {
                 return deserialize(bytes);
-            }
-        });
-    }
-
-    @Override
-    public <T> Element<T> get(String key, Class<T> type) {
-        return withJedis(jedis -> {
-            if (configuration.getTimeToIdleSeconds() > 0) {
-                jedis.expire(key, configuration.getTimeToIdleSeconds());
-            }
-
-            byte[] bytes = jedis.get(key.getBytes());
-            if (bytes == null) {
-                return null;
-            } else {
-                return deserialize(bytes, type);
             }
         });
     }

@@ -26,7 +26,7 @@ public class RedisConfiguration extends CacheConfiguration {
 
     ////////////////////////////////////////////////////////////
 
-    private byte serializeMethod = PredefinedSerializeMethod.FST.getTag();
+    private byte serializeMethod = PredefinedSerializeMethod.JSON.getTag();
 
     private List<RedisAddress> servers =
             Collections.singletonList(new RedisAddress("localhost", 6379, null));

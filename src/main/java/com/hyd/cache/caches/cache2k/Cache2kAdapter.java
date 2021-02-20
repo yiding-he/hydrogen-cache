@@ -62,7 +62,8 @@ public class Cache2kAdapter implements CacheAdapter {
 
     @Override
     public void dispose() {
-        this.cache.clearAndClose();
+        this.cache.clear();
+        this.cache.close();
     }
 
     @Override

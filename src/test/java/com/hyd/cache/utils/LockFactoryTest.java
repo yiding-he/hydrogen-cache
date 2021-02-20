@@ -1,8 +1,6 @@
 package com.hyd.cache.utils;
 
 /**
- * todo: description
- *
  * @author yiding.he
  */
 public class LockFactoryTest {
@@ -11,6 +9,12 @@ public class LockFactoryTest {
         new CheckThread("b").start();
         new CheckThread("a").start();
         new CheckThread("b").start();
+        new CheckThread("c").start();
+        new CheckThread("a").start();
+        new CheckThread("b").start();
+        new CheckThread("a").start();
+        new CheckThread("c").start();
+        new CheckThread("c").start();
         new CheckThread("c").start();
         new CheckThread("a").start();
         new CheckThread("b").start();

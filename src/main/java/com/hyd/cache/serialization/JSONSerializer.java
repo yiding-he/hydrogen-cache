@@ -1,14 +1,20 @@
 package com.hyd.cache.serialization;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.hyd.cache.Element;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class JSONSerializer implements Serializer {
+
+    private static final ObjectMapper objectMapper;
+
+    static {
+        objectMapper = new JsonMapper();
+        objectMapper.activateDefaultTyping(
+                objectMapper.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL);
+    }
 
     private boolean disposeOnFail;
 
@@ -23,8 +29,8 @@ public class JSONSerializer implements Serializer {
     }
 
     @Override
-    public byte[] serialize(Object object) {
-        String json = JSON.toJSONString(object, SerializerFeature.WriteClassName);
+    public byte[] serialize(Object object) throws Exception {
+        String json = objectMapper.writeValueAsString(object);
         return prependBytes(
                 json.getBytes(UTF_8),
                 PredefinedSerializeMethod.JSON.getTag()
@@ -32,10 +38,10 @@ public class JSONSerializer implements Serializer {
     }
 
     @Override
-    public Object deserialize(byte[] bytes) {
+    public Object deserialize(byte[] bytes) throws Exception {
         try {
             byte[] content = removeTag(bytes);
-            return JSON.parseObject(new String(content, UTF_8));
+            return objectMapper.readValue(content, Object.class);
         } catch (Exception e) {
             if (disposeOnFail) {
                 return null;
@@ -45,11 +51,4 @@ public class JSONSerializer implements Serializer {
         }
     }
 
-    @Override
-    public <T> Element<T> deserialize(byte[] bytes, Class<T> type) {
-        byte[] content = removeTag(bytes);
-        return JSON.parseObject(new String(content, UTF_8),
-                new TypeReference<Element<T>>(type) {
-                });
-    }
 }

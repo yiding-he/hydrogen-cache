@@ -29,7 +29,7 @@ public class SpringBootTestApplication {
 
             Cache cache;
 
-            cache = caches.get("local");
+            cache = caches.get("cache2k1");
             cache.put("mail", "yiding.he@gmail.com");
             System.out.println("mail: " + cache.get("mail"));
 
@@ -38,10 +38,6 @@ public class SpringBootTestApplication {
             System.out.println("mail: " + cache.get("mail"));
 
             cache = caches.get("ehcache1");
-            cache.put("mail", "yiding.he@gmail.com");
-            System.out.println("mail: " + cache.get("mail"));
-
-            cache = caches.get("mem1");
             cache.put("mail", "yiding.he@gmail.com");
             System.out.println("mail: " + cache.get("mail"));
         };

@@ -15,6 +15,9 @@ public class Element<E> {
 
     private long expiry;        // 自定义的缓存超时时间，与缓存配置的超时时间无关
 
+    public Element() {
+    }
+
     public Element(E value) {
         this(value, System.currentTimeMillis(), 0);
     }

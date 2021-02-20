@@ -33,7 +33,7 @@ public class EhCacheCacheTest {
         cache.put(key, value);
         assertNotNull(cache.get(key));
 
-        Thread.sleep(1100);
+        Thread.sleep(2100);
         assertNull(cache.get(key));
     }
 

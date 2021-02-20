@@ -1,7 +1,5 @@
 package com.hyd.cache.serialization;
 
-import com.hyd.cache.Element;
-
 /**
  * 将对象序列化/反序列化的类
  */
@@ -14,7 +12,7 @@ public interface Serializer {
      *
      * @return 序列化结果
      */
-    byte[] serialize(Object object);
+    byte[] serialize(Object object) throws Exception;
 
     /**
      * 反序列化，bytes 的第一个字节为标志位，需要从内容中排除
@@ -23,24 +21,11 @@ public interface Serializer {
      *
      * @return 反序列化结果
      */
-    Object deserialize(byte[] bytes);
+    Object deserialize(byte[] bytes) throws Exception;
 
     void setDisposeOnFail(boolean disposeOnFail);
 
     boolean isDisposeOnFail();
-
-    /**
-     * 反序列化并转换为指定的对象类型，bytes 的第一个字节为标志位，需要从内容中排除
-     *
-     * @param bytes 序列化的内容，第一个字节为标志位
-     * @param type  要转换的类型
-     *
-     * @return 反序列化结果
-     */
-    @SuppressWarnings("unchecked")
-    default <T> Element<T> deserialize(byte[] bytes, Class<T> type) {
-        return (Element<T>) deserialize(bytes);
-    }
 
     default byte[] prependBytes(byte[] bytes, byte tag) {
         byte[] result = new byte[bytes.length + 1];

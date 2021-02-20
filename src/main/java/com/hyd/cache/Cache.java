@@ -187,32 +187,6 @@ public class Cache {
     /**
      * 从缓存获取对象，如果缓存当中不存在，则通过 supplier 方法获取并存入缓存
      *
-     * @param key      缓存键
-     * @param supplier 获取对象的方法
-     *
-     * @return 缓存内容或获取结果
-     */
-    public <T> T get(String key, Class<T> type, Supplier<T> supplier) {
-        Object value = this.cacheAdapter.get(key, type);
-
-        if (value == null) {
-            value = supplier.get();
-            if (value != null) {
-                put(key, value);
-            }
-        }
-
-        // 剥去包装
-        if (value instanceof Element) {
-            value = ((Element) value).getValue();
-        }
-
-        return (T) value;
-    }
-
-    /**
-     * 从缓存获取对象，如果缓存当中不存在，则通过 supplier 方法获取并存入缓存
-     *
      * @param key           缓存键
      * @param expirySeconds 缓存时间（某些缓存实现可能不支持为单个 key 设置缓存时间）
      * @param supplier      获取对象的方法
@@ -276,19 +250,17 @@ public class Cache {
         return (T) value;
     }
 
-    /**
-     * 从缓存中获取对象
-     *
-     * @param key  对象key
-     * @param type 对象类型
-     * @param <T>  对象类型
-     *
-     * @return 对象值
-     */
-    @SuppressWarnings("unchecked")
-    public <T> T get(String key, Class<T> type) {
-        Element<T> value = this.cacheAdapter.get(key, type);
-        return value == null ? null : value.getValue();
+    private <T> T extractFromElement(Object value) {
+        if (value instanceof Element) {
+            Element<T> element = (Element<T>) value;
+            if (element.expired()) {
+                return null;
+            } else {
+                return element.getValue();
+            }
+        } else {
+            return (T) value;
+        }
     }
 
     /**
