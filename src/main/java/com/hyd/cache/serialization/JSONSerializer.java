@@ -1,8 +1,10 @@
 package com.hyd.cache.serialization;
 
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -12,8 +14,10 @@ public class JSONSerializer implements Serializer {
 
     static {
         objectMapper = new JsonMapper();
-        objectMapper.activateDefaultTyping(
-                objectMapper.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        PolymorphicTypeValidator validator = objectMapper.getPolymorphicTypeValidator();
+        objectMapper.activateDefaultTyping(validator, ObjectMapper.DefaultTyping.NON_FINAL);
     }
 
     private boolean disposeOnFail;
