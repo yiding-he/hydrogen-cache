@@ -24,16 +24,18 @@ public class Cache2KCacheTest {
     @Test
     public void testExpiry() throws Exception {
         Cache2kConfiguration config = new Cache2kConfiguration();
+        // "The expiry happens via a timer event and may lag approximately one second by default"
         config.setExpireAfterWriteMillis(1000);
 
         Cache cache = new Cache(config);
         String key = "key";
         String value = "value";
 
+        cache.delete(key);
         cache.put(key, value);
         assertNotNull(cache.get(key));
 
-        Thread.sleep(1100);
+        Thread.sleep(3000);
         assertNull(cache.get(key));
     }
     @Test(expected = NullPointerException.class)

@@ -5,7 +5,6 @@ import com.hyd.cache.CacheConfiguration;
 import com.hyd.cache.CacheException;
 import com.hyd.cache.serialization.Serializer;
 import com.hyd.cache.serialization.SerializerFactory;
-import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisShardInfo;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
@@ -26,7 +25,7 @@ public class RedisAdapter implements CacheAdapter {
 
     public RedisAdapter(RedisConfiguration configuration) {
         this.configuration = configuration;
-        shardedJedisPool = new ShardedJedisPool(new JedisPoolConfig(), createShardInfoList(configuration));
+        shardedJedisPool = new ShardedJedisPool(new ShardedJedisPoolConfig(), createShardInfoList(configuration));
     }
 
     private List<JedisShardInfo> createShardInfoList(RedisConfiguration c) {
