@@ -35,6 +35,16 @@ public class RedisConfiguration extends CacheConfiguration {
 
     private int timeToLiveSeconds = 3600;
 
+    private int poolSize = 8;
+
+    public int getPoolSize() {
+        return poolSize;
+    }
+
+    public void setPoolSize(int poolSize) {
+        this.poolSize = poolSize;
+    }
+
     public void setSerializeMethod(byte serializeMethod) {
         this.serializeMethod = serializeMethod;
     }

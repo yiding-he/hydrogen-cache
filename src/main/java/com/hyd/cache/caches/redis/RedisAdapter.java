@@ -26,7 +26,9 @@ public class RedisAdapter implements CacheAdapter {
 
     public RedisAdapter(RedisConfiguration configuration) {
         this.configuration = configuration;
-        shardedJedisPool = new ShardedJedisPool(new JedisPoolConfig(), createShardInfoList(configuration));
+        JedisPoolConfig poolConfig = new JedisPoolConfig();
+        poolConfig.setMaxTotal(configuration.getPoolSize());
+        shardedJedisPool = new ShardedJedisPool(poolConfig, createShardInfoList(configuration));
     }
 
     private List<JedisShardInfo> createShardInfoList(RedisConfiguration c) {
